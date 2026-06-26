@@ -426,6 +426,28 @@
     50%       { transform: translateX(-50%) translateY(8px); }
   }
 
+  /* ── HAMBURGER ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   @media (max-width: 768px) {
     nav { padding: 0 24px; }
     section { padding: 72px 24px; }
@@ -433,6 +455,21 @@
     .about-grid { grid-template-columns: 1fr; gap: 48px; }
     .skills-groups { grid-template-columns: 1fr; }
     .projects-grid { grid-template-columns: 1fr; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 63px; left: 0; right: 0;
+      background: rgba(8,15,28,0.97);
+      backdrop-filter: blur(12px);
+      flex-direction: column;
+      padding: 20px 24px 32px;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { border-bottom: 1px solid var(--border); }
+    .nav-links a { display: block; padding: 16px 0; font-size: 1rem; }
+    .hamburger { display: flex; }
   }
 </style>
 </head>
@@ -443,12 +480,16 @@
 <!-- NAV -->
 <nav id="navbar">
   <div class="nav-logo">&lt;<span>marco</span> /&gt;</div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="nav-links">
     <li><a href="#about" data-section="about">About</a></li>
     <li><a href="#skills" data-section="skills">Skills</a></li>
     <li><a href="#projects" data-section="projects">Projects</a></li>
     <li><a href="#contact" data-section="contact">Contact</a></li>
+    <li><a href="https://www.linkedin.com/in/marco-ceci-6661483a9" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -465,7 +506,8 @@
     </p>
     <div class="hero-buttons">
       <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="https://github.com/marcoceci00" target="_blank" class="btn btn-outline">GitHub Profile</a>
+      <a href="curriculum_marco_ceci.html" target="_blank" rel="noopener" class="btn btn-outline">Download CV</a>
+      <a href="https://github.com/marcoceci00" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GitHub ↗</a>
     </div>
   </div>
   <div class="hero-scroll">
@@ -555,7 +597,7 @@
         <div class="project-header">
           <div class="project-icon">🎮</div>
           <div class="project-links">
-            <a href="https://github.com/marcoceci00/game-tracker" target="_blank" class="project-link">GitHub ↗</a>
+            <a href="https://github.com/marcoceci00/game-tracker" target="_blank" rel="noopener noreferrer" class="project-link">GitHub ↗</a>
           </div>
         </div>
         <div class="project-body">
@@ -578,7 +620,7 @@
         <div class="project-header">
           <div class="project-icon">🎫</div>
           <div class="project-links">
-            <a href="https://github.com/marcoceci00/feldspato" target="_blank" class="project-link">GitHub ↗</a>
+            <a href="https://github.com/marcoceci00/feldspato" target="_blank" rel="noopener noreferrer" class="project-link">GitHub ↗</a>
           </div>
         </div>
         <div class="project-body">
@@ -607,14 +649,15 @@
       <p>Some things are better experienced than explained — but an email works too.</p>
       <div class="contact-links">
         <a href="mailto:marcoceci2010@gmail.com" class="btn btn-primary">Send an email</a>
-        <a href="https://github.com/marcoceci00" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="https://www.linkedin.com/in/marco-ceci-6661483a9" target="_blank" rel="noopener noreferrer" class="btn btn-outline">LinkedIn ↗</a>
+        <a href="https://github.com/marcoceci00" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GitHub ↗</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- the eye of the universe awaits -->
-<footer>// marco ceci &nbsp;·&nbsp; &copy; 2025 &nbsp;·&nbsp; made with curiosity</footer>
+<footer>// marco ceci &nbsp;·&nbsp; &copy; 2026 &nbsp;·&nbsp; made with curiosity</footer>
 
 <script>
 /* ── PARTICLES ── */
@@ -650,6 +693,7 @@
     particles = Array.from({ length: count }, () => new Particle());
   }
 
+  let animId;
   function draw() {
     ctx.clearRect(0, 0, W, H);
     const len = particles.length;
@@ -676,8 +720,13 @@
         }
       }
     }
-    requestAnimationFrame(draw);
+    animId = requestAnimationFrame(draw);
   }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(animId);
+    else animId = requestAnimationFrame(draw);
+  });
 
   window.addEventListener('resize', init);
   init();
@@ -818,6 +867,20 @@
   }, { threshold: 0.3 });
 
   document.querySelectorAll('.skill-group').forEach(g => obs.observe(g));
+})();
+
+/* ── HAMBURGER ── */
+(function () {
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('nav-links');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    btn.classList.remove('open');
+    menu.classList.remove('open');
+  }));
 })();
 </script>
 </body>
