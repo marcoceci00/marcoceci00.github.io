@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marco Ceci — IT Specialist & Web Developer</title>
+<title>Marco Ceci — Web Developer & IT Specialist</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -335,6 +335,7 @@
     transform-style: preserve-3d;
     will-change: transform;
   }
+  .project-card.featured { grid-column: 1 / -1; }
   .project-card:hover { border-color: rgba(91,143,212,0.4); }
   .project-header {
     background: linear-gradient(135deg, #0d1f3a 0%, #162a4a 100%);
@@ -502,7 +503,7 @@
       <span id="typewriter"></span><span class="cursor"></span>
     </div>
     <p class="hero-sub">
-      Web developer and IT specialist based in Latina, Italy. I build custom web applications and keep IT infrastructure running — 3+ years of hands-on experience across full-stack development and systems management.
+      Web developer and IT specialist based in Latina, Italy. I build production web applications and manage IT infrastructure — 3+ years of professional experience, including a document management system currently running in the chemical and pharmaceutical sector.
     </p>
     <div class="hero-buttons">
       <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -592,6 +593,27 @@
     <div class="section-label reveal">What I've built</div>
     <div class="section-title reveal">Projects</div>
     <div class="projects-grid">
+
+      <div class="project-card featured reveal" id="card-dms">
+        <div class="project-header">
+          <div class="project-icon">📋</div>
+          <div class="project-links">
+            <span class="project-link" style="cursor:default;opacity:0.7;">Private — Live in production</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Document Management System</div>
+          <div class="project-desc">
+            A custom document management platform built from scratch for clients in the chemical and pharmaceutical sector. Handles document workflows, versioning, access control, and audit trails across multiple companies. Designed, built, and maintained solo over 3 years — currently in production.
+          </div>
+          <div class="project-tech">
+            <span class="tech-badge">PHP</span>
+            <span class="tech-badge">MySQL</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">HTML/CSS</span>
+          </div>
+        </div>
+      </div>
 
       <div class="project-card reveal reveal-delay-1" id="card-gametracker">
         <div class="project-header">
