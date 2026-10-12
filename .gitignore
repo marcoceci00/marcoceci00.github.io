@@ -1,1 +1,4 @@
 curriculum_marco_ceci.html
+node_modules/
+dist/
+.astro/

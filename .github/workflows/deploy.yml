@@ -1,0 +1,29 @@
+# A ogni push su main: GitHub costruisce il sito con Astro e lo pubblica su GitHub Pages
+name: Pubblica il sito
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permette anche di lanciarlo a mano dalla scheda Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: withastro/action@v6 # installa le dipendenze, esegue "astro build" e prepara la cartella dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
