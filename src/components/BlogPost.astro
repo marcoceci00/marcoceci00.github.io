@@ -1,0 +1,27 @@
+---
+// Un articolo, nella lingua della pagina
+import { render, type CollectionEntry } from "astro:content";
+import { langOf, pathFor, ui } from "../i18n";
+import Layout from "../layouts/Layout.astro";
+
+type Props = { post: CollectionEntry<"blog"> };
+
+const { post } = Astro.props;
+const lang = langOf(Astro.currentLocale);
+const t = ui[lang];
+const { Content } = await render(post);
+const date = post.data.date.toLocaleDateString(t.dateLocale, { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Layout title={`${post.data.title} — Marco Ceci`} description={post.data.description}>
+  <main>
+    <section>
+      <article class="prose">
+        <p class="section-label"><time datetime={post.data.date.toISOString()}>{date}</time></p>
+        <h1 class="section-title">{post.data.title}</h1>
+        <Content />
+        <p class="post-back"><a href={pathFor(lang, "/blog/")}>{t.blogBack}</a></p>
+      </article>
+    </section>
+  </main>
+</Layout>

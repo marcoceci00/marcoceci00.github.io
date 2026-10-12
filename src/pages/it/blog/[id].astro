@@ -1,0 +1,14 @@
+---
+// Astro genera una pagina per ogni articolo: getStaticPaths gli dice quali
+import BlogPost from "../../../components/BlogPost.astro";
+import { getPosts, slugOf } from "../../../i18n";
+
+export async function getStaticPaths() {
+  const posts = await getPosts("it");
+  return posts.map((post) => ({ params: { id: slugOf(post.id) }, props: { post } }));
+}
+
+const { post } = Astro.props;
+---
+
+<BlogPost post={post} />

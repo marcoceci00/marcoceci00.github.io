@@ -628,3 +628,6 @@ footer {
 .prose pre { padding: 16px 20px; border-radius: var(--radius-md); border: 1px solid var(--border); overflow-x: auto; }
 .prose pre code { background: none; border: 0; padding: 0; }
 .prose .post-back { margin-top: 3em; font-family: var(--font-mono); font-size: 0.9rem; }
+
+/* ════ LANGUAGE SWITCH ════ */
+.nav-links a.lang-switch { font-family: var(--font-mono); border: 1px solid var(--border-strong); }

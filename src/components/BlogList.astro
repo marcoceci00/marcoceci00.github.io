@@ -1,0 +1,37 @@
+---
+// Elenco degli articoli nella lingua della pagina
+import { getPosts, langOf, pathFor, slugOf, ui } from "../i18n";
+import Layout from "../layouts/Layout.astro";
+
+const lang = langOf(Astro.currentLocale);
+const t = ui[lang];
+const posts = await getPosts(lang);
+const formatDate = (d: Date) => d.toLocaleDateString(t.dateLocale, { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Layout title="Blog — Marco Ceci" description={t.blogDesc}>
+  <main>
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <p class="section-label">{t.blogLabel}</p>
+          <h1 class="section-title">Blog</h1>
+        </div>
+        {posts.length === 0 && <p class="post-empty">{t.blogEmpty}</p>}
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li>
+              <a class="post-item card" href={pathFor(lang, `/blog/${slugOf(post.id)}/`)}>
+                <time class="post-date" datetime={post.data.date.toISOString()}>
+                  {formatDate(post.data.date)}{post.data.draft && ` · ${t.draft}`}
+                </time>
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+</Layout>

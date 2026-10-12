@@ -1,5 +1,6 @@
 ---
 // Struttura comune a tutte le pagine: head, menu, footer e gli script del menu
+import { langOf, otherLangPath, pathFor, ui } from "../i18n";
 import "../styles/global.css";
 
 interface Props {
@@ -7,14 +8,22 @@ interface Props {
   description?: string;
 }
 
-const {
-  title = "Marco Ceci — Web Developer & IT Specialist",
-  description = "Web developer and IT specialist based in Latina, Italy. I build production web applications and manage IT infrastructure.",
-} = Astro.props;
+const lang = langOf(Astro.currentLocale);
+const t = ui[lang];
+const { title = t.metaTitle, description = t.metaDesc } = Astro.props;
+
+const home = pathFor(lang, "/");
+const blog = pathFor(lang, "/blog/");
+const path = Astro.url.pathname;
+const otherPath = otherLangPath(path);
+const otherLang = lang === "en" ? "it" : "en";
+// Indirizzi completi della pagina in inglese e in italiano, per i motori di ricerca
+const enUrl = new URL(lang === "en" ? path : otherPath, Astro.site);
+const itUrl = new URL(lang === "it" ? path : otherPath, Astro.site);
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +37,9 @@ const {
 <meta name="description" content={description}>
 <meta property="og:title" content={title}>
 <meta property="og:description" content={description}>
+<link rel="alternate" hreflang="en" href={enUrl}>
+<link rel="alternate" hreflang="it" href={itUrl}>
+<link rel="alternate" hreflang="x-default" href={enUrl}>
 </head>
 <body>
 
@@ -36,12 +48,13 @@ const {
 <nav id="navbar">
   <div class="nav-logo">&lt;<span>marco</span> /&gt;</div>
   <ul class="nav-links" id="nav-links">
-    <li><a href="/#about" data-section="about">About</a></li>
-    <li><a href="/#skills" data-section="skills">Skills</a></li>
-    <li><a href="/#projects" data-section="projects">Projects</a></li>
-    <li><a href="/#contact" data-section="contact">Contact</a></li>
-    <li><a href="/blog/" data-section="blog" class:list={{ active: Astro.url.pathname.startsWith("/blog") }}>Blog</a></li>
+    <li><a href={`${home}#about`} data-section="about">{t.navAbout}</a></li>
+    <li><a href={`${home}#skills`} data-section="skills">{t.navSkills}</a></li>
+    <li><a href={`${home}#projects`} data-section="projects">{t.navProjects}</a></li>
+    <li><a href={`${home}#contact`} data-section="contact">{t.navContact}</a></li>
+    <li><a href={blog} data-section="blog" class:list={{ active: path.startsWith(blog) }}>Blog</a></li>
     <li><a href="https://www.linkedin.com/in/marco-ceci-6661483a9" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+    <li><a href={otherPath} hreflang={otherLang} lang={otherLang} aria-label={t.switchLabel} class="lang-switch">{otherLang.toUpperCase()}</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -51,7 +64,7 @@ const {
 <slot />
 
 <!-- the eye of the universe awaits -->
-<footer>// marco ceci &nbsp;·&nbsp; &copy; 2026 &nbsp;·&nbsp; made with curiosity</footer>
+<footer>// marco ceci &nbsp;·&nbsp; &copy; 2026 &nbsp;·&nbsp; {t.footer}</footer>
 
 <script is:inline>
 /* ── SCROLL PROGRESS ── */
