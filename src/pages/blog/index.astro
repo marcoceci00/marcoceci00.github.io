@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const posts = (await getCollection("blog", ({ data }) => import.meta.env.DEV || !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const formatDate = (d: Date) => d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Layout title="Blog — Marco Ceci" description="Notes from day-to-day IT work: real problems, how I diagnosed them, and what I learned.">
+  <main>
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <p class="section-label">Notes from the field</p>
+          <h1 class="section-title">Blog</h1>
+        </div>
+        {posts.length === 0 && <p class="post-empty">First posts coming soon.</p>}
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li>
+              <a class="post-item card" href={`/blog/${post.id}/`}>
+                <time class="post-date" datetime={post.data.date.toISOString()}>
+                  {formatDate(post.data.date)}{post.data.draft && " · draft"}
+                </time>
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+</Layout>

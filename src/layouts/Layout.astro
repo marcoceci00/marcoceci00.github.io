@@ -1,0 +1,91 @@
+---
+// Struttura comune a tutte le pagine: head, menu, footer e gli script del menu
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Marco Ceci — Web Developer & IT Specialist",
+  description = "Web developer and IT specialist based in Latina, Italy. I build production web applications and manage IT infrastructure.",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#060a13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1b2e'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='38' fill='%236ba3e8' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<title>{title}</title>
+<meta name="description" content={description}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<nav id="navbar">
+  <div class="nav-logo">&lt;<span>marco</span> /&gt;</div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/#about" data-section="about">About</a></li>
+    <li><a href="/#skills" data-section="skills">Skills</a></li>
+    <li><a href="/#projects" data-section="projects">Projects</a></li>
+    <li><a href="/#contact" data-section="contact">Contact</a></li>
+    <li><a href="/blog/" data-section="blog" class:list={{ active: Astro.url.pathname.startsWith("/blog") }}>Blog</a></li>
+    <li><a href="https://www.linkedin.com/in/marco-ceci-6661483a9" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<slot />
+
+<!-- the eye of the universe awaits -->
+<footer>// marco ceci &nbsp;·&nbsp; &copy; 2026 &nbsp;·&nbsp; made with curiosity</footer>
+
+<script is:inline>
+/* ── SCROLL PROGRESS ── */
+(function () {
+  const bar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+})();
+
+/* ── NAV SCROLL STYLE ── */
+(function () {
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+})();
+
+/* ── HAMBURGER ── */
+(function () {
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('nav-links');
+  btn.addEventListener('click', () => {
+    const open = btn.classList.toggle('open');
+    menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    btn.classList.remove('open');
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }));
+})();
+</script>
+</body>
+</html>

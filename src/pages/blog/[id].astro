@@ -1,0 +1,29 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+// Astro genera una pagina per ogni articolo: questa funzione gli dice quali
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => import.meta.env.DEV || !data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+type Props = { post: CollectionEntry<"blog"> };
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Layout title={`${post.data.title} — Marco Ceci`} description={post.data.description}>
+  <main>
+    <section>
+      <article class="prose">
+        <p class="section-label"><time datetime={post.data.date.toISOString()}>{date}</time></p>
+        <h1 class="section-title">{post.data.title}</h1>
+        <Content />
+        <p class="post-back"><a href="/blog/">← All posts</a></p>
+      </article>
+    </section>
+  </main>
+</Layout>
