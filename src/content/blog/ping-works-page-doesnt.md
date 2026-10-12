@@ -1,7 +1,7 @@
 ---
 title: "Ping works, the web page doesn't: debugging a firewall between subnets"
 description: "A device answered ping from another subnet, but its web interface never loaded. How I proved where the problem was and asked for exactly the right firewall rule."
-date: 2026-10-12
+date: 2026-10-09
 draft: false
 ---
 
