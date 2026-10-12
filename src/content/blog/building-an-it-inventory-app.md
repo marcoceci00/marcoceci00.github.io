@@ -2,7 +2,7 @@
 title: "Building an IT inventory app from scratch"
 description: "Spreadsheets and memory weren't enough to track who has which PC. So I built a small inventory app with Next.js, PostgreSQL and Drizzle, plus a PowerShell script that collects hardware specs."
 date: 2026-10-12
-draft: true
+draft: false
 ---
 
 Which PC does each person have? Which old one did they hand back, and when? Which licences are in use, and on what? Until recently the answer was "let me check", followed by a search through emails and notes.

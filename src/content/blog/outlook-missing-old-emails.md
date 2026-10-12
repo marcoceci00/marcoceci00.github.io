@@ -2,7 +2,7 @@
 title: "Outlook doesn't show old emails, but Outlook on the web does"
 description: "Older messages were missing in the Outlook desktop app but visible in the browser. The cause is one setting: how much of the mailbox Outlook keeps offline."
 date: 2026-10-12
-draft: true
+draft: false
 ---
 
 A user told me their older emails had "disappeared" from Outlook. Nothing had been deleted: the same messages were all there in **Outlook on the web**. Only the desktop app was missing them.

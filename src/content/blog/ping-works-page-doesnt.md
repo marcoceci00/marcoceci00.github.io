@@ -2,7 +2,7 @@
 title: "Ping works, the web page doesn't: debugging a firewall between subnets"
 description: "A device answered ping from another subnet, but its web interface never loaded. How I proved where the problem was and asked for exactly the right firewall rule."
 date: 2026-10-12
-draft: true
+draft: false
 ---
 
 A colleague reported that the web interface of an internal device would not open from their PC. The strange part: from their PC, the device answered `ping` without any problem.

@@ -2,7 +2,7 @@
 title: "'Unknown publisher': what an unsigned app on a work PC really means"
 description: "A user found an app called 'update-server' with no publisher. Here is what a missing digital signature tells you, how to check it, and what to do after removing the app."
 date: 2026-10-12
-draft: true
+draft: false
 ---
 
 A user noticed something odd in their list of installed apps: a program called **update-server**, with the publisher listed as **unknown**. They hadn't installed anything with that name.
